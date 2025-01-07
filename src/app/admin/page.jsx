@@ -2,9 +2,9 @@ import React from 'react'
 
 const Page = () => {
   return (
-    <div>
-     <h1>Main Dashboard Page</h1>
-    </div>
+    <div className='flex justify-center items-center h-[100vh]'>
+    <h1 className='text-4xl font-bold'>Welcome Back, User!</h1>
+  </div>
   )
 }
 
