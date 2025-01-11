@@ -1,38 +1,70 @@
 "use client"
 import axios from 'axios';
 import { CldUploadWidget } from 'next-cloudinary';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-export default function SimpleForm() {
+export default function UpdateForm({params}) {
   const [title, setTitle] = useState('');
   const [image, setImage] = useState("");
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
 
-  const categories = ['Cars', 'Technology', 'Fashion', ]; // Example categories
+  const categories = ['Cars', 'Technology', 'Fashion', ]; 
 
-  const handleSubmit = async (e) => {
+  let id = params.id
+
+  let router = useRouter()
+
+  let fetchData = async () =>{
+    try {
+        let res = await axios.get(`/api/blog/${id}`)
+        console.log(res);
+        setTitle(res.data.blog.title)
+        setCategory(res.data.blog.category)
+        setDescription(res.data.blog.description)
+        setImage(res.data.blog.image)
+
+
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+  }
+
+  const handleUpdate = async (e) => {
     e.preventDefault();
     const formData = { title, image, category, description };
     try {
 
-      let res = await axios.post("/api/blog",formData)
-      console.log(res);
+      let res = await axios.patch(`/api/blog/${id}`,formData)
+      if(res.data.success){
+        toast.success("Blog Updated Successfully!")
+        router.push("/admin/blogs")
+
+      }
       
       
     } catch (error) {
+        toast.error("Error in Updating blog")
       console.log(error);
       
     }
     
   };
 
+  useEffect(()=>{
+   fetchData()
+  },[])
+
   return (
     <div className="min-h-screen ">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleUpdate}
         className="bg-white p-6 rounded-lg  w-full max-w-xl"
       >
         <h1 className="text-2xl font-bold mb-4">Create a Post</h1>
@@ -122,7 +154,7 @@ export default function SimpleForm() {
           type="submit"
           className="w-full mt-12 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-200"
         >
-          Submit
+          Update Blog
         </button>
       </form>
     </div>

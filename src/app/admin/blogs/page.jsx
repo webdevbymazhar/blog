@@ -1,6 +1,8 @@
 "use client"
 import axios from "axios";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const Table = () => {
 
@@ -20,6 +22,25 @@ const Table = () => {
   useEffect(()=>{
     fetchData()
   },[])
+
+  let DeleteBlog = async (id) =>{
+
+    try {
+
+      let response = await axios.delete(`/api/blog/${id}`)
+
+      if(response.data.success){
+        toast.success("Blog Deleted Successfully!")
+        fetchData()
+      }
+      
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+
+  }
 
 
 
@@ -51,9 +72,9 @@ const Table = () => {
               </td>
               <td className="py-3 px-6 text-center">
                 <button className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2 hover:bg-blue-600">
-                  Update
+                  <Link href={`/admin/update/${item._id}`}>Update</Link>
                 </button>
-                <button className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+                <button onClick={()=>DeleteBlog(item._id)} className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
                   Delete
                 </button>
               </td>
@@ -68,12 +89,6 @@ const Table = () => {
 export default Table;
 
 
-
-  // const data = [
-  //   { id: 1, title: "Car Rental", category: "Business", image: "/car.jpg" },
-  //   { id: 2, title: "Travel Blog", category: "Lifestyle", image: "/travel.jpg" },
-  //   { id: 3, title: "Food Recipes", category: "Food", image: "/food.jpg" },
-  // ];
 
 
 
