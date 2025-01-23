@@ -29,7 +29,7 @@ export default function Home() {
   },[])
 
   return (
-    <div>
+    <div className="flex justify-between items-center flex-wrap ">
 
       {
         blogs.map((blog, index)=>{
