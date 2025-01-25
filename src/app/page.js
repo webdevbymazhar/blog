@@ -33,7 +33,7 @@ export default function Home() {
 
       {
         blogs.map((blog, index)=>{
-          return <BlogCard id = {blog._id} image={blog.image} description={blog.description} category={blog.category} title={blog.title} />
+          return <BlogCard key={index} id = {blog._id} image={blog.image} description={blog.description} category={blog.category} title={blog.title} />
         })
       }
       
