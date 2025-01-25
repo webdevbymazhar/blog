@@ -10,7 +10,7 @@ export async function ConnectDB() {
 
     try {
 
-        await mongoose.connect(process.env.MONGO_URL)
+        await mongoose.connect("mongodb+srv://webdevbymazhar:12345@cluster0.ybbhm.mongodb.net/blogapp")
         console.log("MongoDb is connected!");
         
 
